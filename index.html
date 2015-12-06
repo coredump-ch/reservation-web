@@ -1,0 +1,44 @@
+<!-- doctype html -->
+<html lang="en" ng-app="reservationsApp">
+<head>
+
+    <title>Ultimaker Reservationen</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="css/app.css">
+
+    <!-- vendor scripts -->
+    <script src="bower_components/angular/angular.min.js"></script>
+
+    <!-- own scripts -->
+    <script src="js/controllers.js"></script>
+
+</head>
+<body>
+    <h1>Ultimaker Reservationen</h1>
+
+    <p>Mit diesem Tool kannst du als Mitglied den 3D-Drucker im <a href="https://www.coredump.ch/">Coredump</a> reservieren.</p>
+
+    <h2>Aktive Reservationen</h2>
+    <table ng-controller="ReservationsCtrl">
+        <tr>
+            <th>Start</th>
+            <th>Ende</th>
+            <th>Name</th>
+        </tr>
+        <tr ng-repeat="res in reservations">
+            <td>{{ res.start | date:"yyyy-MM-dd HH:mma" }}</td>
+            <td>{{ res.end | date:"yyyy-MM-dd HH:mma" }}</td>
+            <td>{{ res.name }}</td>
+        </tr>
+    </table>
+
+    <h2>Neue Reservation</h2>
+    <form ng-submit="search(searchterm)">
+        <label>Name: <input ng-model="name"></label>
+        <label>Beginn: <input ng-model="start"></label>
+        <label>Dauer (h): <input ng-model="duration"></label>
+        <button>Go!</button>
+    </form>
+
+</body>
+</html>
