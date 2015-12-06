@@ -1,7 +1,7 @@
-var reservationsApp = angular.module('reservationsApp', []);
+var app = angular.module('reservationsApp');
 
-reservationsApp.controller('ReservationsCtrl', function($scope, $http) {
-    $scope.reservations = [
+app.controller('ReservationsCtrl', function($scope, Reservation) {
+    /*$scope.reservations = [
         {
             'start': new Date(2015, 12, 04, 16, 0, 0),
             'end': new Date(2015, 12, 04, 22, 30, 0),
@@ -12,5 +12,8 @@ reservationsApp.controller('ReservationsCtrl', function($scope, $http) {
             'end': new Date(2015, 12, 04, 09, 0, 0),
             'name': 'Axel',
         }
-    ];
+    ];*/
+    $scope.reservations = Reservation.query({}, function(data, responseHeaders) {
+        console.log(data)
+    });
 });
