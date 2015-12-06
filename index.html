@@ -4,6 +4,7 @@
 
     <title>Ultimaker Reservationen</title>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- vendor scripts -->
     <script src="bower_components/angular/angular.js"></script>
@@ -23,12 +24,14 @@
 
 </head>
 <body>
+    <div id="wrapper" class="container">
+
     <h1>Ultimaker Reservationen</h1>
 
     <p>Mit diesem Tool kannst du als Mitglied den 3D-Drucker im <a href="https://www.coredump.ch/">Coredump</a> reservieren.</p>
 
     <h2>Aktive Reservationen</h2>
-    <table ng-controller="ReservationsCtrl">
+    <table ng-controller="ReservationsCtrl" class="table table-striped table-hover">
         <tr>
             <th>Start</th>
             <th>Dauer</th>
@@ -48,6 +51,8 @@
         <label>Dauer (h): <input ng-model="duration"></label>
         <button>Go!</button>
     </form>
+
+    </div>
 
 </body>
 </html>
