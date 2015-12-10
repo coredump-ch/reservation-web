@@ -1,1 +1,1 @@
-angular.module('reservationsApp', ['ngResource']);
+angular.module('reservationsApp', ['ngResource', 'config']);
