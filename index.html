@@ -5,6 +5,7 @@
     <title>Ultimaker Reservationen</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
     <!-- vendor scripts -->
     <script src="bower_components/angular/angular.js"></script>
@@ -30,27 +31,48 @@
 
     <p>Mit diesem Tool kannst du als Mitglied den 3D-Drucker im <a href="https://www.coredump.ch/">Coredump</a> reservieren.</p>
 
-    <h2>Aktive Reservationen</h2>
-    <table ng-controller="ReservationListCtrl" class="table table-striped table-hover">
-        <tr>
-            <th>Start</th>
-            <th>Dauer</th>
-            <th>Name</th>
-        </tr>
-        <tr ng-repeat="res in reservations">
-            <td>{{ res.start | date:"yyyy-MM-dd HH:mma" }}</td>
-            <td>{{ res.duration }}</td>
-            <td>{{ res.owner }}</td>
-        </tr>
-    </table>
+    <div class="row">
 
-    <h2>Neue Reservation</h2>
-    <form class="form" role="form" ng-controller="ReservationAddCtrl" ng-submit="addReservation()">
-        <label>Name: <input ng-model="reservation.owner"></label>
-        <label>Beginn: <input ng-model="reservation.start" type="datetime-local"></label>
-        <label>Dauer (h): <input ng-model="reservation.duration" type="number" min="0" max="48" step="0.25" value="1"></label>
-        <button>Go!</button>
-    </form>
+        <div class="col-sm-8">
+
+            <h2>Aktive Reservationen</h2>
+            <table ng-controller="ReservationListCtrl" class="table table-striped table-hover">
+                <tr>
+                    <th>Start</th>
+                    <th>Dauer</th>
+                    <th>Name</th>
+                </tr>
+                <tr ng-repeat="res in reservations">
+                    <td>{{ res.start | date:"yyyy-MM-dd HH:mma" }}</td>
+                    <td>{{ res.duration }}</td>
+                    <td>{{ res.owner }}</td>
+                </tr>
+            </table>
+
+        </div>
+        <div class="col-sm-4">
+
+            <h2>Neue Reservation</h2>
+            <form class="form" role="form" ng-controller="ReservationAddCtrl" ng-submit="addReservation()">
+                <div class="form-group">
+                    <label for="owner" class="control-label">Name</label>
+                    <input id"owner" ng-model="reservation.owner" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="start" class="control-label">Beginn</label>
+                    <input id="start" ng-model="reservation.start" class="form-control" type="datetime-local">
+                </div>
+                <div class="form-group">
+                    <label for="duration" class="control-label">Dauer (h)</label>
+                    <input id="duration" ng-model="reservation.duration"  class="form-control" type="number" min="0" max="48" step="0.25" value="1">
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-primary">Go!</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
 
     </div>
 
