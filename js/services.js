@@ -18,6 +18,21 @@ app.factory('Reservation', ['$resource', 'config', function($resource, config) {
             transformResponse: function(data, headers) {
                 return JSON.parse(data).results;
             }
+        },
+        save: {
+            method: 'POST',
+            transformRequest: function(reservation, headers) {
+                // Validation
+                if (reservation === undefined) {
+                    return reservation;
+                }
+
+                // Convert hours to minutes
+                reservation.duration *= 60;
+
+                // Serialize to JSON
+                return JSON.stringify(reservation);
+            }
         }
     });
 }]);
