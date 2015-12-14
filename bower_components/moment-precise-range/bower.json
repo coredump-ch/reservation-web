@@ -1,0 +1,24 @@
+{
+  "name": "moment-precise-range",
+  "version": "1.0.0",
+  "homepage": "https://github.com/mediasuitenz/moment-precise-range",
+  "authors": [
+    "codebox.org.uk"
+  ],
+  "description": "A moment.js plugin to display human-readable date/time ranges",
+  "main": "readable-range.js",
+  "keywords": [
+    "moment",
+    "date",
+    "range",
+    "time"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

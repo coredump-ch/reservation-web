@@ -21,6 +21,7 @@
     "angular-resource": "1.5.0-beta.2",
     "angular-moment": "1.0.0-beta.3",
     "moment": "2.10.6",
+    "moment-precise-range": "~1.0.1",
     "bootstrap": "~3.3.6",
     "normalize-css": "normalize.css#~3.0.3"
   }
