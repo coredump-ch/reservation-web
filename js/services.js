@@ -10,7 +10,12 @@ app.config(function($resourceProvider, $httpProvider, config) {
 
 });
 
-app.factory('Reservation', ['$resource', 'config', function($resource, config) {
+// Provide MomentJS
+app.factory('moment', [function() {
+    return moment;
+}]);
+
+app.factory('Reservation', ['$resource', 'config', 'moment', function($resource, config, moment) {
     return $resource(config.API_URL + 'reservations/:id', {}, {
         query: {
             isArray: true,
@@ -28,7 +33,8 @@ app.factory('Reservation', ['$resource', 'config', function($resource, config) {
                 }
 
                 // Convert hours to minutes
-                reservation.duration *= 60;
+                var duration = moment.duration({'hours': reservation.duration});
+                reservation.end = moment(reservation.start).add(duration).toDate();
 
                 // Serialize to JSON
                 return JSON.stringify(reservation);
