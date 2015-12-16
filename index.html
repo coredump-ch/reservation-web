@@ -47,7 +47,7 @@
                     <th>Ende</th>
                     <th>Name</th>
                 </tr>
-                <tr ng-repeat="res in reservations">
+                <tr ng-repeat="res in reservationList.reservations">
                     <td title="{{ res.start }}">{{ res.start | amDifference : null : "minutes" | amDurationFormat : "minute" : true }}</td>
                     <td>{{ res.start | humanizedDiff : res.end }}</td>
                     <td title="{{ res.end }}">{{ res.end | amDifference : null : "minutes" | amDurationFormat : "minute" : true }}</td>

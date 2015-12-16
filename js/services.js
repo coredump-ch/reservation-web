@@ -42,3 +42,20 @@ app.factory('Reservation', ['$resource', 'config', 'moment', function($resource,
         }
     });
 }]);
+
+app.factory('ReservationList', ['Reservation', function(Reservation) {
+    var values = {
+        reservations: []
+    };
+
+    var update = function() {
+        values.reservations = Reservation.query({}, function(data, responseHeaders) {
+            console.log(data)
+        })
+    };
+
+    return {
+        getReservations: function() { return values },
+        update: update
+    }
+}]);

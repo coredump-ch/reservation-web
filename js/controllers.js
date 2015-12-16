@@ -1,12 +1,11 @@
 var app = angular.module('reservationsApp');
 
-app.controller('ReservationListCtrl', function($scope, Reservation) {
-    $scope.reservations = Reservation.query({}, function(data, responseHeaders) {
-        console.log(data)
-    });
+app.controller('ReservationListCtrl', function($scope, ReservationList) {
+    $scope.reservationList = ReservationList.getReservations();
+    ReservationList.update();
 });
 
-app.controller('ReservationAddCtrl', function($scope, Reservation) {
+app.controller('ReservationAddCtrl', function($scope, Reservation, ReservationList) {
     // Initialize scope with empty reservation
     $scope.reservation = new Reservation();
 
@@ -18,6 +17,9 @@ app.controller('ReservationAddCtrl', function($scope, Reservation) {
 
             // When done, clear current form
             $scope.reservation = new Reservation();
+
+            // Update reservation list
+            ReservationList.update();
 
             // Show an alert
             alert('Saved');
