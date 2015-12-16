@@ -1,4 +1,4 @@
-var app = angular.module('reservationsApp', ['ngResource', 'angularMoment']);
+var app = angular.module('reservationsApp', ['ngResource', 'ngAnimate', 'angularMoment']);
 
 app.constant('config', {
     API_URL: 'https://reservations.coredump.ch/api/v1/',
