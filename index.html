@@ -56,10 +56,10 @@
             </table>
 
         </div>
-        <div class="col-sm-4">
+        <div class="col-sm-4" ng-controller="ReservationAddCtrl">
 
             <h2>Neue Reservation</h2>
-            <form class="form" role="form" ng-controller="ReservationAddCtrl" ng-submit="addReservation()">
+            <form class="form" role="form" ng-submit="addReservation()">
                 <div class="form-group">
                     <label for="owner" class="control-label">Name</label>
                     <input id"owner" ng-model="reservation.owner" class="form-control">
@@ -76,6 +76,7 @@
                     <button class="btn btn-primary">Go!</button>
                 </div>
             </form>
+            <div class="alert alert-success" ng-show="showSuccessMessage">Reservation gespeichert!</div>
 
         </div>
     </div>

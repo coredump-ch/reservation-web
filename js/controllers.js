@@ -5,9 +5,10 @@ app.controller('ReservationListCtrl', function($scope, ReservationList) {
     ReservationList.update();
 });
 
-app.controller('ReservationAddCtrl', function($scope, Reservation, ReservationList) {
+app.controller('ReservationAddCtrl', function($scope, $timeout, Reservation, ReservationList) {
     // Initialize scope with empty reservation
     $scope.reservation = new Reservation();
+    $scope.showSuccessMessage = false;
 
     // Add a reservation
     $scope.addReservation = function() {
@@ -18,11 +19,14 @@ app.controller('ReservationAddCtrl', function($scope, Reservation, ReservationLi
             // When done, clear current form
             $scope.reservation = new Reservation();
 
+            // Show message
+            $scope.showSuccessMessage = true;
+            $timeout(function() {
+                $scope.showSuccessMessage = false;
+            }, 3000);
+
             // Update reservation list
             ReservationList.update();
-
-            // Show an alert
-            alert('Saved');
 
         });
 
