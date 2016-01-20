@@ -10,18 +10,54 @@ app.config(function($resourceProvider, $httpProvider, config) {
 
 });
 
+
 // Provide MomentJS
 app.factory('moment', [function() {
     return moment;
 }]);
 
+
+// Error registry
+app.factory('ErrorList', function() {
+    var errors = {};
+
+    return function(category) {
+
+        // Initialize category
+        if (errors[category] === undefined) {
+            errors[category] = {}
+        }
+
+        return {
+            getErrors: function() {
+                return errors[category];
+            },
+            insert: function(key, value) {
+                errors[category][key] = value;
+            },
+            clear: function() {
+                for (key in errors[category]) {
+                    delete(errors[category][key]);
+                }
+            }
+        }
+    }
+});
+
+
+// The reservation resource
 app.factory('Reservation', ['$resource', 'config', 'moment', function($resource, config, moment) {
     return $resource(config.API_URL + 'reservations/:id', {}, {
         query: {
             isArray: true,
             method: 'GET',
             transformResponse: function(data, headers) {
-                return JSON.parse(data).results;
+                var parsed = JSON.parse(data);
+                if (parsed === null) {
+                    return null;
+                } else {
+                    return parsed.results;
+                }
             }
         },
         save: {
@@ -43,15 +79,24 @@ app.factory('Reservation', ['$resource', 'config', 'moment', function($resource,
     });
 }]);
 
-app.factory('ReservationList', ['Reservation', function(Reservation) {
+
+// Manage the list of future reservations
+app.factory('ReservationList', ['Reservation', 'ErrorList', function(Reservation, ErrorList) {
     var values = {
         reservations: []
     };
 
+    var errors = ErrorList('active');
+
     var update = function() {
         values.reservations = Reservation.query({}, function(data, responseHeaders) {
-            console.log(data)
-        })
+            errors.clear();
+            return true;
+        }, function(response) {
+            var key = (response.status === -1) ? 'Verbindungsfehler' : 'HTTP ' + response.status;
+            errors.insert(key, 'Konnte Reservationsliste nicht laden');
+            return false;
+        });
     };
 
     return {

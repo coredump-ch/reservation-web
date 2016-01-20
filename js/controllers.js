@@ -1,20 +1,33 @@
 var app = angular.module('reservationsApp');
 
-app.controller('ReservationListCtrl', function($scope, ReservationList) {
+app.controller('ReservationListCtrl', function($scope, ReservationList, ErrorList) {
+    // Register reservations
     $scope.reservationList = ReservationList.getReservations();
+
+    // Register error messages
+    $scope.errors = ErrorList('active').getErrors();
+
+    // Fetch reservations
     ReservationList.update();
 });
 
-app.controller('ReservationAddCtrl', function($scope, $timeout, Reservation, ReservationList) {
+app.controller('ReservationAddCtrl', function($scope, $timeout, Reservation, ReservationList, ErrorList) {
     // Initialize scope with empty reservation
     $scope.reservation = new Reservation();
     $scope.showSuccessMessage = false;
 
+    // Register error messages
+    $scope.errors = ErrorList('new').getErrors();
+
     // Add a reservation
     $scope.addReservation = function() {
 
+        // Clear error messages
+        ErrorList('new').clear();
+
         // Save resevation to server
-        $scope.reservation.$save(function() {
+        var promise = $scope.reservation.$save();
+        promise.then(function() {
 
             // When done, clear current form
             $scope.reservation = new Reservation();
@@ -28,6 +41,19 @@ app.controller('ReservationAddCtrl', function($scope, $timeout, Reservation, Res
             // Update reservation list
             ReservationList.update();
 
+        }, function(response) {
+            if (response.hasOwnProperty('data') && response.data !== null) {
+                for (field in response.data) {
+                    ErrorList('new').insert(field, response.data[field].join(" "));
+                }
+            } else {
+                if (response.status === -1) {
+                    var msg = 'Konnte Reservation nicht speichern (Verbindungsfehler)';
+                } else {
+                    var msg = 'Konnte Reservation nicht speichern (HTTP ' + response.status + ')';
+                }
+                ErrorList('new').insert('Fehler', msg);
+            }
         });
 
     };
