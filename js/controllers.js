@@ -21,6 +21,12 @@ app.controller('ReservationAddCtrl', function($scope, $timeout, $cookies, Reserv
 
     // Initialize scope with empty reservation
     $scope.reservation = new Reservation();
+    $scope.reservation.start = function () {
+        var date = new Date();
+        date.setMilliseconds(0);
+        date.setSeconds(0);
+        return date;
+    }();
     $scope.showSuccessMessage = false;
 
     // Register error messages
