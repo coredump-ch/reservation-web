@@ -11,7 +11,14 @@ app.controller('ReservationListCtrl', function($scope, ReservationList, ErrorLis
     ReservationList.update();
 });
 
-app.controller('ReservationAddCtrl', function($scope, $timeout, Reservation, ReservationList, ErrorList) {
+app.controller('ReservationAddCtrl', function($scope, $timeout, $cookies, Reservation, ReservationList, ErrorList) {
+
+    // Ensure that session and csrf cookies are gone to prevent
+    // session authentication from being used in Django REST Framework.
+    // We're using token auth instead, which doesn't need CSRF verification.
+    $cookies.remove('sessionid');
+    $cookies.remove('csrftoken');
+
     // Initialize scope with empty reservation
     $scope.reservation = new Reservation();
     $scope.showSuccessMessage = false;
