@@ -19,14 +19,23 @@ app.controller('ReservationAddCtrl', function($scope, $timeout, $cookies, Reserv
     $cookies.remove('sessionid');
     $cookies.remove('csrftoken');
 
+    // Return a new reservation with some fields initialized to default values.
+    var reservationFactory = function(owner) {
+        var reservation = new Reservation();
+        reservation.start = function () {
+            var date = new Date();
+            date.setMilliseconds(0);
+            date.setSeconds(0);
+            return date;
+        }();
+        if (owner !== undefined) {
+            reservation.owner = owner;
+        }
+        return reservation;
+    }
+
     // Initialize scope with empty reservation
-    $scope.reservation = new Reservation();
-    $scope.reservation.start = function () {
-        var date = new Date();
-        date.setMilliseconds(0);
-        date.setSeconds(0);
-        return date;
-    }();
+    $scope.reservation = reservationFactory();
     $scope.showSuccessMessage = false;
 
     // Register error messages
@@ -42,8 +51,8 @@ app.controller('ReservationAddCtrl', function($scope, $timeout, $cookies, Reserv
         var promise = $scope.reservation.$save();
         promise.then(function() {
 
-            // When done, clear current form
-            $scope.reservation = new Reservation();
+            // When done, clear current form. Keep owner field.
+            $scope.reservation = reservationFactory($scope.reservation.owner);
 
             // Show message
             $scope.showSuccessMessage = true;
