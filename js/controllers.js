@@ -51,7 +51,11 @@ app.controller('ReservationAddCtrl', function($scope, $timeout, $cookies, Reserv
         }, function(response) {
             if (response.hasOwnProperty('data') && response.data !== null) {
                 for (field in response.data) {
-                    ErrorList('new').insert(field, response.data[field].join(" "));
+                    if (field == 'non_field_errors') {
+                        ErrorList('new').insert('Fehler', response.data[field].join(" / "));
+                    } else {
+                        ErrorList('new').insert(field, response.data[field].join(" / "));
+                    }
                 }
             } else {
                 if (response.status === -1) {
