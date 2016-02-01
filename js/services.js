@@ -93,7 +93,11 @@ app.factory('ReservationList', ['Reservation', 'ErrorList', function(Reservation
             errors.clear();
             return true;
         }, function(response) {
-            var key = (response.status === -1) ? 'Verbindungsfehler' : 'HTTP ' + response.status;
+            if (!response.hasOwnProperty('status') || response.status === -1) {
+                var key = 'Verbindungsfehler';
+            } else {
+                var key = 'HTTP ' + response.status;
+            }
             errors.insert(key, 'Konnte Reservationsliste nicht laden');
             return false;
         });
