@@ -19,7 +19,7 @@ app.factory('moment', [function() {
 
 // Error registry
 app.factory('ErrorList', function() {
-    var errors = {};
+    const errors = {};
 
     return function(category) {
 
@@ -52,12 +52,8 @@ app.factory('Reservation', ['$resource', 'config', 'moment', function($resource,
             isArray: true,
             method: 'GET',
             transformResponse: function(data, headers) {
-                var parsed = JSON.parse(data);
-                if (parsed === null) {
-                    return null;
-                } else {
-                    return parsed.results;
-                }
+                const parsed = JSON.parse(data);
+                return parsed === null ? null : parsed.results;
             }
         },
         save: {
@@ -69,7 +65,7 @@ app.factory('Reservation', ['$resource', 'config', 'moment', function($resource,
                 }
 
                 // Convert hours to minutes
-                var duration = moment.duration({'hours': reservation.duration});
+                const duration = moment.duration({'hours': reservation.duration});
                 reservation.end = moment(reservation.start).add(duration).toDate();
 
                 // Serialize to JSON
@@ -82,21 +78,22 @@ app.factory('Reservation', ['$resource', 'config', 'moment', function($resource,
 
 // Manage the list of future reservations
 app.factory('ReservationList', ['Reservation', 'ErrorList', function(Reservation, ErrorList) {
-    var values = {
+    const values = {
         reservations: []
     };
 
-    var errors = ErrorList('active');
+    const errors = ErrorList('active');
 
-    var update = function() {
+    const update = function() {
         values.reservations = Reservation.query({}, function(data, responseHeaders) {
             errors.clear();
             return true;
         }, function(response) {
+            let key;
             if (!response.hasOwnProperty('status') || response.status === -1) {
-                var key = 'Verbindungsfehler';
+                key = 'Verbindungsfehler';
             } else {
-                var key = 'HTTP ' + response.status;
+                key = 'HTTP ' + response.status;
             }
             errors.insert(key, 'Konnte Reservationsliste nicht laden');
             return false;
