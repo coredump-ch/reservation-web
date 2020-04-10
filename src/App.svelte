@@ -22,7 +22,7 @@
         </div>
 
         <div class="col-sm-4">
-            <ReservationAdd />
+            <ReservationAdd API_URL={API_URL} API_TOKEN={API_TOKEN} />
         </div>
     </div>
 </div>

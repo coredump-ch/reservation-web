@@ -46,7 +46,7 @@
 
     <tbody>
         {#await reservationsPromise}
-            <tr><td colspan="4"><em>Loading...</em></td></tr>
+            <tr><td colspan="4"><em>Laden...</em></td></tr>
         {:then reservations}
             {#if reservations.length > 0}
                 {#each reservations as res}
@@ -58,10 +58,10 @@
                     </tr>
                 {/each}
             {:else}
-                <tr><td colspan="4"><em>No reservations!</em></td></tr>
+                <tr><td colspan="4"><em>Keine aktiven oder geplanten Reservationen!</em></td></tr>
             {/if}
         {:catch error}
-            <tr><td colspan="4"><em>Error loading data</em></td></tr>
+        <tr><td colspan="4"><em>Reservationsliste konnte nicht geladen werden! ({error})</em></td></tr>
         {/await}
     </tbody>
 </table>
