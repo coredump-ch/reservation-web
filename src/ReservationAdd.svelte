@@ -13,21 +13,32 @@
     // Error handling
     let errorList;
 
-    // Set initial values
-    let name = '';
-    let start = moment().format(DATE_FORMAT);
-    let duration = 1;
+    // Bound values
+    let name;
+    let start;
+    let duration;
+
+    // Reset bound values
+    function resetFormFields() {
+        name = '';
+        start = moment().format(DATE_FORMAT);
+        duration = 1;
+    }
+    resetFormFields();
 
     // Calculated start and end moments
     $: startMoment = moment(start);
     $: endMoment = moment(start).add(moment.duration({hours: duration}));
 
+    // Form submission
+    let success = false;
     async function handleSubmit(e) {
         console.info('Submitting form:');
         console.info(` Name: ${name}`);
         console.info(` Start: ${startMoment}`);
         console.info(` End: ${endMoment}`);
         try {
+            // Create a new reservation through the API
             const response = await createReservation(
                 name,
                 startMoment.toDate(),
@@ -35,6 +46,10 @@
                 API_URL,
                 API_TOKEN,
             );
+
+            // Success, reset form fields
+            success = true;
+            resetFormFields();
         } catch (e) {
             console.error(e);
             if (e.responseData && e.responseData['non_field_errors']) {
@@ -61,6 +76,10 @@
 <h2>Neue Reservation</h2>
 
 <ErrorList bind:this={errorList} />
+
+{#if success}
+<div class="alert alert-success">Reservation gespeichert!</div>
+{/if}
 
 <form class="form" role="form" on:submit|preventDefault="{handleSubmit}">
     <div class="form-group">
