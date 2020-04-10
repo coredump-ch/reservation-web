@@ -6,3 +6,7 @@ written using [Svelte](https://svelte.dev/).
 ## Screenshot
 
 ![screenshot](screenshot.png)
+
+## Dev server
+
+    npm run dev

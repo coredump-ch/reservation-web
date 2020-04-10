@@ -48,7 +48,7 @@
         {#await reservationsPromise}
             <tr><td colspan="4"><em>Loading...</em></td></tr>
         {:then reservations}
-            {#if reservations}
+            {#if reservations.length > 0}
                 {#each reservations as res}
                     <tr>
                         <td title="{absoluteDate(res.start)}">{relativeDate(res.start)}</td>
