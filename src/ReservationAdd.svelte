@@ -5,7 +5,7 @@
     import { createReservation } from './api';
     import ErrorList from './ErrorList.svelte';
 
-    const DATE_FORMAT = 'Y-MM-DD HH:mm';
+    const DATE_FORMAT = 'Y-MM-DDTHH:mm';
 
     // Error handling
     let errorList;
