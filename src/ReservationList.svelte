@@ -33,8 +33,12 @@
     </thead>
 
     <tbody>
-        {#if $reservations.length > 0}
-            {#each $reservations as res}
+        {#if $reservations.updating}
+            <tr><td colspan="4"><em>Laden...</em></td></tr>
+        {:else if $reservations.error !== null}
+            <tr><td colspan="4"><em>Reservationsliste konnte nicht geladen werden! ({$reservations.error})</em></td></tr>
+        {:else if $reservations.data.length > 0}
+            {#each $reservations.data as res}
                 <tr>
                     <td title="{absoluteDate(res.start)}">{relativeDate(res.start)}</td>
                     <td>{duration(res.start, res.end)}</td>

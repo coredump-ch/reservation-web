@@ -14,7 +14,14 @@ const API_TOKEN = process.env.API_TOKEN;
  */
 class Api {
     constructor() {
-        const { subscribe, set, update } = writable([]);
+        const { subscribe, set, update } = writable({
+            // Whether the data is currently being updated
+            updating: false,
+            // An error message if loading failed
+            error: null,
+            // The list of reservations
+            data: [],
+        });
         this.subscribe = subscribe;
         this._set = set;
         this._update = update;
@@ -27,9 +34,24 @@ class Api {
      * Load the reservations from the API.
      */
     async update() {
-        let data = await getReservations();
-        console.debug(`Fetched ${data.length} reservations:`, data);
-        this._set(data);
+        this._update(store => { store.updating = true; return store });
+        try {
+            let data = await getReservations();
+            console.debug(`Fetched ${data.length} reservations:`, data);
+            this._update(store => {
+                store.updating = false;
+                store.error = null;
+                store.data = data;
+                return store;
+            });
+        } catch (e) {
+            console.error(`Fetching failed:`, e);
+            this._update(store => {
+                store.updating = false;
+                store.error = e.message;
+                return store;
+            });
+        }
     }
 
     clear() {
