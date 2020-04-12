@@ -9,4 +9,14 @@ written using [Svelte](https://svelte.dev/).
 
 ## Dev server
 
+Set up configuration:
+
+    cp .env.example .env
+
+Run dev server:
+
     npm run dev
+
+## Build production bundle
+
+    npm run build

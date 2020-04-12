@@ -1,9 +1,6 @@
 <script>
     import ReservationAdd from './ReservationAdd.svelte';
     import ReservationList from './ReservationList.svelte';
-
-	export let API_URL;
-	export let API_TOKEN;
 </script>
 
 <style>
@@ -18,11 +15,11 @@
     <div class="row">
 
         <div class="col-sm-8">
-            <ReservationList API_URL={API_URL} API_TOKEN={API_TOKEN} />
+            <ReservationList />
         </div>
 
         <div class="col-sm-4">
-            <ReservationAdd API_URL={API_URL} API_TOKEN={API_TOKEN} />
+            <ReservationAdd />
         </div>
     </div>
 </div>

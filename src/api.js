@@ -1,9 +1,12 @@
 import { RequestFailed } from './errors';
 
+const API_URL = process.env.API_URL;
+const API_TOKEN = process.env.API_TOKEN;
+
 /**
  * Fetch reservations from the API.
  */
-export async function getReservations(API_URL, API_TOKEN) {
+export async function getReservations() {
     const res = await fetch(`${API_URL}reservations/`, {
         mode: 'cors',
         cache: 'no-cache',
@@ -24,7 +27,7 @@ export async function getReservations(API_URL, API_TOKEN) {
  * @param end (Date): End datetime
  * @throws RequestFailed if response does not return successfully
  */
-export async function createReservation(name, start, end, API_URL, API_TOKEN) {
+export async function createReservation(name, start, end) {
     const res = await fetch(`${API_URL}reservations/`, {
         method: 'post',
         headers: {

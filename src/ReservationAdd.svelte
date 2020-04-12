@@ -5,9 +5,6 @@
     import { createReservation } from './api';
     import ErrorList from './ErrorList.svelte';
 
-    export let API_URL;
-    export let API_TOKEN;
-
     const DATE_FORMAT = 'Y-MM-DD HH:mm';
 
     // Error handling
@@ -43,8 +40,6 @@
                 name,
                 startMoment.toDate(),
                 endMoment.toDate(),
-                API_URL,
-                API_TOKEN,
             );
 
             // Success, reset form fields

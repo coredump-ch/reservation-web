@@ -4,9 +4,6 @@
 
     import { getReservations }  from './api';
 
-    export let API_URL;
-    export let API_TOKEN;
-
     function absoluteDate(m) {
         return m.format('DD.MM.YYYY HH:mm');
     }
@@ -19,7 +16,7 @@
         return moment.preciseDiff(start, end);
     }
 
-    let reservationsPromise = getReservations(API_URL, API_TOKEN)
+    let reservationsPromise = getReservations()
         .then(reservations => reservations.map(res => {
             console.log('Reservation:', res);
             // Parse dates
