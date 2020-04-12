@@ -2,7 +2,7 @@
     import * as moment from 'moment'
     import { onMount } from 'svelte';
 
-    import { createReservation } from './api';
+    import { createReservation, reservations } from './api';
     import ErrorList from './ErrorList.svelte';
 
     const DATE_FORMAT = 'Y-MM-DDTHH:mm';
@@ -45,6 +45,7 @@
             // Success, reset form fields
             success = true;
             resetFormFields();
+            reservations.update();
         } catch (e) {
             console.error(e);
             if (e.responseData && e.responseData['non_field_errors']) {
