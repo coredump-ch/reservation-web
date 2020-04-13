@@ -1,4 +1,4 @@
-import * as moment from 'moment'
+import * as moment from 'moment';
 
 import { writable } from 'svelte/store';
 
@@ -34,7 +34,10 @@ class Api {
      * Load the reservations from the API.
      */
     async update() {
-        this._update(store => { store.updating = true; return store });
+        this._update(store => {
+            store.updating = true;
+            return store;
+        });
         try {
             let data = await getReservations();
             console.debug(`Fetched ${data.length} reservations:`, data);
@@ -45,7 +48,7 @@ class Api {
                 return store;
             });
         } catch (e) {
-            console.error(`Fetching failed:`, e);
+            console.error('Fetching failed:', e);
             this._update(store => {
                 store.updating = false;
                 store.error = e.message;
@@ -108,7 +111,7 @@ export async function createReservation(name, start, end) {
         let data = undefined;
         try {
             data = await res.json();
-        } catch { }
+        } catch(e) { /* ignore */ }
         throw new RequestFailed('Could not create reservation', res.status, data);
     }
     return await res.json();

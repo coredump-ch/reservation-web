@@ -1,6 +1,5 @@
 <script>
-    import * as moment from 'moment'
-    import { onMount } from 'svelte';
+    import * as moment from 'moment';
 
     import { createReservation, reservations } from './api';
     import ErrorList from './ErrorList.svelte';
@@ -29,14 +28,14 @@
 
     // Form submission
     let success = false;
-    async function handleSubmit(e) {
+    async function handleSubmit(_ev) {
         console.info('Submitting form:');
         console.info(` Name: ${name}`);
         console.info(` Start: ${startMoment}`);
         console.info(` End: ${endMoment}`);
         try {
             // Create a new reservation through the API
-            const response = await createReservation(
+            const _response = await createReservation(
                 name,
                 startMoment.toDate(),
                 endMoment.toDate(),

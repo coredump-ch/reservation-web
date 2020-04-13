@@ -1,5 +1,5 @@
 <script>
-    import * as moment from 'moment'
+    import * as moment from 'moment';
     import 'moment-precise-range-plugin'; // Used for `moment().preciseDiff()` to work
 
     import { reservations }  from './api';
