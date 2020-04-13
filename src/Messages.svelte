@@ -1,4 +1,6 @@
 <script>
+    import { slide } from 'svelte/transition';
+
     // Messages. Key is an integer, value is an object:
     //
     // interface Value {
@@ -7,6 +9,7 @@
     //   msg: str,
     // }
     let messages = {};
+
     let i = 0;
 
     /**
@@ -36,7 +39,7 @@
 </script>
 
 {#each [...Object.values(messages)] as message}
-    <p class="alert" class:alert-success="{message.level === 'success'}" class:alert-danger="{message.level === 'error'}">
+    <p class="alert" class:alert-success="{message.level === 'success'}" class:alert-danger="{message.level === 'error'}" transition:slide>
         {#if message.level === 'error'}
         <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>&nbsp;
         {/if}
