@@ -1,5 +1,7 @@
 # Ultimaker Reservation Tool
 
+![CI](https://github.com/coredump-ch/reservation-web/workflows/CI/badge.svg)
+
 The web interface for the [Reservation API](https://github.com/coredump-ch/reservation-api),
 written using [Svelte](https://svelte.dev/).
 
