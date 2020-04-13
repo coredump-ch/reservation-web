@@ -2,12 +2,13 @@
     import * as moment from 'moment';
 
     import { createReservation, reservations } from './api';
-    import ErrorList from './ErrorList.svelte';
+    import Messages from './Messages.svelte';
 
     const DATE_FORMAT = 'Y-MM-DDTHH:mm';
 
-    // Error handling
-    let errorList;
+    // Alert messages
+    let messages;
+    const MESSAGE_TIMEOUT = 3000;
 
     // Bound values
     let name;
@@ -27,7 +28,6 @@
     $: endMoment = moment(start).add(moment.duration({hours: duration}));
 
     // Form submission
-    let success = false;
     async function handleSubmit(_ev) {
         console.info('Submitting form:');
         console.info(` Name: ${name}`);
@@ -42,20 +42,22 @@
             );
 
             // Success, reset form fields
-            success = true;
             resetFormFields();
             reservations.update();
+            messages.addMessage('Reservation gespeichert', MESSAGE_TIMEOUT);
         } catch (e) {
             console.error(e);
             if (e.responseData && e.responseData['non_field_errors']) {
-                errorList.addError(
+                messages.addError(
                     `HTTP ${e.statusCode}`,
                     e.responseData['non_field_errors'].join(' / '),
+                    MESSAGE_TIMEOUT,
                 );
             } else {
-                errorList.addError(
+                messages.addError(
                     'Unbekannter Fehler',
                     `Reservation konnte nicht gespeichert werden (${e.message})`,
+                    MESSAGE_TIMEOUT,
                 );
             }
         }
@@ -70,11 +72,7 @@
 
 <h2>Neue Reservation</h2>
 
-<ErrorList bind:this={errorList} />
-
-{#if success}
-<div class="alert alert-success">Reservation gespeichert!</div>
-{/if}
+<Messages bind:this={messages} />
 
 <form class="form" role="form" on:submit|preventDefault="{handleSubmit}">
     <div class="form-group">
