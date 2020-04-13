@@ -1,0 +1,32 @@
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+
+name: CI
+
+jobs:
+
+  build:
+    name: build app bundle
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '12.x'
+      - run: npm install
+      - run: cp .env.example .env
+      - run: npm run build
+
+  lint:
+    name: run eslint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '12.x'
+      - run: npm install
+      - run: npm run lint
