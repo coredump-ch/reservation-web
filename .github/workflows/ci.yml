@@ -1,7 +1,7 @@
 on:
   push:
     branches:
-      - master
+      - main
   pull_request:
 
 name: CI
@@ -15,7 +15,7 @@ jobs:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
         with:
-          node-version: '12.x'
+          node-version: '16.x'
       - run: npm install
       - run: cp .env.example .env
       - run: npm run build
@@ -27,6 +27,25 @@ jobs:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
         with:
-          node-version: '12.x'
+          node-version: '16.x'
       - run: npm install
       - run: npm run lint
+
+  docker_image:
+    name: build docker image
+    runs-on: ubuntu-latest
+    needs: [build, lint]
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build Docker image
+        run: |
+          docker build \
+            --no-cache \
+            -t coredump/reservation-web:main \
+            -t coredump/reservation-web:latest \
+            .
+      - name: Push Docker image (only on main)
+        if: github.ref == 'refs/heads/main'
+        run: |
+          docker login -u "${{ secrets.DOCKER_USERNAME }}" -p "${{ secrets.DOCKER_PASSWORD }}" && \
+          docker push -a coredump/reservation-web
