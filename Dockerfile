@@ -1,5 +1,5 @@
 # Build in node container
-FROM node:16-alpine3.14 as build
+FROM node:22-alpine3.19 as build
 
 # Copy code
 COPY . /build
