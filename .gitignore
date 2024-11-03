@@ -1,4 +1,5 @@
 *.swp
 node_modules/
 public/bundle.*
+dist/
 .env
