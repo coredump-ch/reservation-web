@@ -8,6 +8,7 @@ globals:
   Atomics: readonly
   SharedArrayBuffer: readonly
   process: readonly
+  __APP_VERSION__: readonly
 parserOptions:
   ecmaVersion: 2024
   sourceType: module

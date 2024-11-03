@@ -20,7 +20,14 @@
       <ReservationAdd />
     </div>
   </div>
+
+  <!-- svelte-ignore missing-declaration -->
+  <footer>Version: {__APP_VERSION__}</footer>
 </div>
 
 <style>
+  footer {
+    font-style: italic;
+    color: #777;
+  }
 </style>
