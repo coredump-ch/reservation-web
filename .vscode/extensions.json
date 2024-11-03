@@ -1,0 +1,8 @@
+{
+  "recommendations": [
+    "esbenp.prettier-vscode",
+    "stkb.rewrap",
+    "dbaeumer.vscode-eslint",
+    "svelte.svelte-vscode"
+  ]
+}

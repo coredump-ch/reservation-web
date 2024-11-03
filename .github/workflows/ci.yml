@@ -7,36 +7,46 @@ on:
 name: CI
 
 jobs:
-
   build:
     name: build app bundle
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
-          node-version: '16.x'
+          node-version-file: '.nvmrc'
       - run: npm install
       - run: cp .env.example .env
       - run: npm run build
 
-  lint:
+  eslint:
     name: run eslint
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
-          node-version: '16.x'
+          node-version-file: '.nvmrc'
       - run: npm install
-      - run: npm run lint
+      - run: npm run lint:eslint
+
+  prettier:
+    name: run prettier
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+      - run: npm install
+      - run: npm run lint:prettier
 
   docker_image:
     name: build docker image
     runs-on: ubuntu-latest
-    needs: [build, lint]
+    needs: [build]
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Build Docker image
         run: |
           docker build \

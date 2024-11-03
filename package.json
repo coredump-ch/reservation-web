@@ -2,12 +2,17 @@
   "name": "reservation-web",
   "version": "0.2.1",
   "description": "The web interface for the Reservation API, implemented with Svelte.",
-  "main": "index.js",
+  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "cross-env NODE_ENV=production webpack",
-    "dev": "webpack-dev-server --content-base public",
-    "lint": "eslint --ext .js,.svelte src/"
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "lint:svelte-check": "svelte-check",
+    "lint:eslint": "eslint --ext .js,.svelte src/",
+    "lint:prettier": "prettier -c .",
+    "lint:prettier:fix": "prettier -w .",
+    "lint": "npm run lint:svelte-check && npm run lint:eslint && npm run lint:prettier"
   },
   "repository": {
     "type": "git",
@@ -20,20 +25,16 @@
   },
   "homepage": "https://github.com/coredump-ch/reservation-web#readme",
   "devDependencies": {
-    "cross-env": "^7.0.2",
-    "css-loader": "^3.4.2",
-    "dotenv-webpack": "^1.7.0",
-    "eslint": "^6.8.0",
-    "eslint-plugin-svelte3": "^2.7.3",
-    "mini-css-extract-plugin": "^0.9.0",
-    "moment": "^2.29.4",
-    "moment-precise-range-plugin": "^1.3.0",
-    "serve": "^11.3.0",
-    "style-loader": "^1.1.3",
-    "svelte": "^3.20.1",
-    "svelte-loader": "^2.13.6",
-    "webpack": "^4.42.1",
-    "webpack-cli": "^3.3.12",
-    "webpack-dev-server": "^3.10.3"
+    "@sveltejs/vite-plugin-svelte": "^3.0.0",
+    "eslint": "^8.57.1",
+    "eslint-plugin-svelte": "^2.46.0",
+    "prettier": "^3.3.3",
+    "prettier-plugin-svelte": "^3.2.7",
+    "svelte": "^4",
+    "svelte-check": "^4.0.5",
+    "vite": "^5.4.10"
+  },
+  "dependencies": {
+    "luxon": "^3.5.0"
   }
 }

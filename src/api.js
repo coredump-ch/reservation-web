@@ -1,11 +1,11 @@
-import * as moment from 'moment';
+import {DateTime} from 'luxon';
 
-import { writable } from 'svelte/store';
+import {writable} from 'svelte/store';
 
-import { RequestFailed } from './errors';
+import {RequestFailed} from './errors';
 
-const API_URL = process.env.API_URL;
-const API_TOKEN = process.env.API_TOKEN;
+const API_URL = import.meta.env.VITE_API_URL;
+const API_TOKEN = import.meta.env.VITE_API_TOKEN;
 
 /**
  * Wrap a writable store and fetch the current reservation list.
@@ -14,7 +14,7 @@ const API_TOKEN = process.env.API_TOKEN;
  */
 class Api {
     constructor() {
-        const { subscribe, set, update } = writable({
+        const {subscribe, set, update} = writable({
             // Whether the data is currently being updated
             updating: false,
             // An error message if loading failed
@@ -34,14 +34,14 @@ class Api {
      * Load the reservations from the API.
      */
     async update() {
-        this._update(store => {
+        this._update((store) => {
             store.updating = true;
             return store;
         });
         try {
             let data = await getReservations();
             console.debug(`Fetched ${data.length} reservations:`, data);
-            this._update(store => {
+            this._update((store) => {
                 store.updating = false;
                 store.error = null;
                 store.data = data;
@@ -49,7 +49,7 @@ class Api {
             });
         } catch (e) {
             console.error('Fetching failed:', e);
-            this._update(store => {
+            this._update((store) => {
                 store.updating = false;
                 store.error = e.message;
                 return store;
@@ -72,15 +72,15 @@ export async function getReservations() {
         mode: 'cors',
         cache: 'no-cache',
         headers: {
-            'Authorization': `Token ${API_TOKEN}`,
-            'Accept': 'application/json',
+            Authorization: `Token ${API_TOKEN}`,
+            Accept: 'application/json',
         },
     });
     const data = await res.json();
-    return data.results.map(res => {
+    return data.results.map((res) => {
         // Parse dates
-        res.start = moment(res.start);
-        res.end = moment(res.end);
+        res.start = DateTime.fromISO(res.start);
+        res.end = DateTime.fromISO(res.end);
         return res;
     });
 }
@@ -105,13 +105,16 @@ export async function createReservation(name, start, end) {
             owner: name,
             start: start.toISOString(),
             end: end.toISOString(),
+            printer: 'ultimaker2+',
         }),
     });
     if (!res.ok) {
         let data = undefined;
         try {
             data = await res.json();
-        } catch(e) { /* ignore */ }
+        } catch (e) {
+            /* ignore */
+        }
         throw new RequestFailed('Could not create reservation', res.status, data);
     }
     return await res.json();

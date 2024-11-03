@@ -1,5 +1,5 @@
 # Build in node container
-FROM node:16-alpine3.14 as build
+FROM node:22-alpine3.19 as build
 
 # Copy code
 COPY . /build
@@ -12,7 +12,7 @@ RUN npm install
 RUN cp .env.example .env && npm run build
 
 # Copy release into nginx container
-FROM nginx:1.20-alpine
+FROM nginx:1.27-alpine
 COPY --from=build --chown=nginx:nginx /build/public /usr/share/nginx/html
 
 # Add entrypoint script
