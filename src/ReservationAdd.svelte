@@ -64,7 +64,7 @@
 
 <Messages bind:this={messages} />
 
-<form class="form" role="form" on:submit|preventDefault={handleSubmit}>
+<form class="form" on:submit|preventDefault={handleSubmit}>
   <div class="form-group">
     <label for="name" class="control-label">Name</label>
     <input id="name" class="form-control" placeholder="Dein Name" bind:value={name} required />
