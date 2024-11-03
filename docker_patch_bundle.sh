@@ -9,6 +9,6 @@ fi
 echo "Patching bundle:"
 cd /usr/share/nginx/html/
 echo "  - API_TOKEN"
-sed -i "s/PLEASE_SET_API_TOKEN_VARIABLE/$API_TOKEN/g" bundle.js
+sed -i "s/PLEASE_SET_API_TOKEN_VARIABLE/$API_TOKEN/g" assets/*.js
 
 echo "Patching done."
