@@ -1,11 +1,11 @@
-import * as moment from 'moment';
+import {DateTime} from 'luxon';
 
 import {writable} from 'svelte/store';
 
 import {RequestFailed} from './errors';
 
-const API_URL = process.env.API_URL;
-const API_TOKEN = process.env.API_TOKEN;
+const API_URL = import.meta.env.VITE_API_URL;
+const API_TOKEN = import.meta.env.VITE_API_TOKEN;
 
 /**
  * Wrap a writable store and fetch the current reservation list.
@@ -79,8 +79,8 @@ export async function getReservations() {
     const data = await res.json();
     return data.results.map((res) => {
         // Parse dates
-        res.start = moment(res.start);
-        res.end = moment(res.end);
+        res.start = DateTime.fromISO(res.start);
+        res.end = DateTime.fromISO(res.end);
         return res;
     });
 }
@@ -105,6 +105,7 @@ export async function createReservation(name, start, end) {
             owner: name,
             start: start.toISOString(),
             end: end.toISOString(),
+            printer: 'ultimaker2+',
         }),
     });
     if (!res.ok) {

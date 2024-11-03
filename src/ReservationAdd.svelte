@@ -1,5 +1,5 @@
 <script>
-  import * as moment from 'moment';
+  import moment from 'moment';
 
   import {createReservation, reservations} from './api';
   import Messages from './Messages.svelte';

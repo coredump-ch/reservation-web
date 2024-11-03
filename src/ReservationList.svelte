@@ -1,19 +1,22 @@
 <script>
-  import * as moment from 'moment';
-  import 'moment-precise-range-plugin'; // Used for `moment().preciseDiff()` to work
+  import {Duration} from 'luxon';
 
   import {reservations} from './api';
 
-  function absoluteDate(m) {
-    return m.format('DD.MM.YYYY HH:mm');
+  function absoluteDate(dateTime) {
+    return dateTime.toFormat('DD.MM.yyyy HH:mm');
   }
 
-  function relativeDate(m) {
-    return m.fromNow();
+  function relativeDate(dateTime) {
+    return dateTime.toRelative();
   }
 
   function duration(start, end) {
-    return moment.preciseDiff(start, end);
+    const durationObject = end.diff(start, ['days', 'hours', 'minutes']).toObject();
+    const filteredDurationObject = Object.fromEntries(
+      Object.entries(durationObject).filter(([_, value]) => value !== 0),
+    );
+    return Duration.fromObject(filteredDurationObject).toHuman();
   }
 </script>
 
