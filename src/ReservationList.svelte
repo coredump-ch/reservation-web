@@ -4,7 +4,7 @@
   import {reservations} from './api';
 
   function absoluteDate(dateTime) {
-    return dateTime.toFormat('DD.MM.yyyy HH:mm');
+    return dateTime.toFormat('dd.MM.yyyy HH:mm');
   }
 
   function relativeDate(dateTime) {

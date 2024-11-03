@@ -1,10 +1,10 @@
 <script>
-  import moment from 'moment';
+  import {DateTime} from 'luxon';
 
   import {createReservation, reservations} from './api';
   import Messages from './Messages.svelte';
 
-  const DATE_FORMAT = 'Y-MM-DDTHH:mm';
+  const DATE_FORMAT = "yyyy-MM-dd'T'HH:mm";
 
   // Alert messages
   let messages;
@@ -18,24 +18,28 @@
   // Reset bound values
   function resetFormFields() {
     name = '';
-    start = moment().format(DATE_FORMAT);
+    start = DateTime.now().toFormat(DATE_FORMAT);
     duration = 1;
   }
   resetFormFields();
 
   // Calculated start and end moments
-  $: startMoment = moment(start);
-  $: endMoment = moment(start).add(moment.duration({hours: duration}));
+  $: startDateTime = DateTime.fromFormat(start, DATE_FORMAT);
+  $: endDateTime = DateTime.fromFormat(start, DATE_FORMAT).plus({hours: duration});
 
   // Form submission
   async function handleSubmit(_ev) {
     console.info('Submitting form:');
     console.info(` Name: ${name}`);
-    console.info(` Start: ${startMoment}`);
-    console.info(` End: ${endMoment}`);
+    console.info(` Start: ${startDateTime}`);
+    console.info(` End: ${endDateTime}`);
     try {
       // Create a new reservation through the API
-      const _response = await createReservation(name, startMoment.toDate(), endMoment.toDate());
+      const _response = await createReservation(
+        name,
+        startDateTime.toJSDate(),
+        endDateTime.toJSDate(),
+      );
 
       // Success, reset form fields
       resetFormFields();
@@ -69,7 +73,7 @@
     <label for="name" class="control-label">Name</label>
     <input id="name" class="form-control" placeholder="Dein Name" bind:value={name} required />
   </div>
-  <div class="form-group" class:invalid={start.length < 16 || !startMoment.isValid()}>
+  <div class="form-group" class:invalid={start.length < 16 || !startDateTime.isValid}>
     <label for="start" class="control-label">Beginn</label>
     <input id="start" class="form-control" type="datetime-local" bind:value={start} required />
   </div>
