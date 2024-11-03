@@ -4,10 +4,10 @@
 </script>
 
 <div id="wrapper" class="container">
-  <h1>Ultimaker Reservationen</h1>
+  <h1>3D-Drucker-Reservationen</h1>
 
   <p>
-    Mit diesem Tool kannst du als Mitglied den 3D-Drucker im
+    Mit diesem Tool kannst du als Mitglied die 3D-Drucker im
     <a href="https://www.coredump.ch/">Coredump</a> reservieren.
   </p>
 

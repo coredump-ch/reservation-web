@@ -12,12 +12,14 @@
 
   // Bound values
   let name;
+  let printer;
   let start;
   let duration;
 
   // Reset bound values
   function resetFormFields() {
     name = '';
+    printer = '';
     start = DateTime.now().toFormat(DATE_FORMAT);
     duration = 1;
   }
@@ -31,12 +33,14 @@
   async function handleSubmit(_ev) {
     console.info('Submitting form:');
     console.info(` Name: ${name}`);
+    console.info(` Printer: ${printer}`);
     console.info(` Start: ${startDateTime}`);
     console.info(` End: ${endDateTime}`);
     try {
       // Create a new reservation through the API
       const _response = await createReservation(
         name,
+        printer,
         startDateTime.toJSDate(),
         endDateTime.toJSDate(),
       );
@@ -72,6 +76,14 @@
   <div class="form-group">
     <label for="name" class="control-label">Name</label>
     <input id="name" class="form-control" placeholder="Dein Name" bind:value={name} required />
+  </div>
+  <div class="form-group">
+    <label for="printer" class="control-label">Drucker</label>
+    <select id="printer" class="form-control" bind:value={printer} required>
+      <option value=""></option>
+      <option value="prusaxl">Prusa XL</option>
+      <option value="ultimaker2+">Ultimaker 2+</option>
+    </select>
   </div>
   <div class="form-group" class:invalid={start.length < 16 || !startDateTime.isValid}>
     <label for="start" class="control-label">Beginn</label>

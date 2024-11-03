@@ -89,11 +89,12 @@ export async function getReservations() {
  * Create a new reservation through the API.
  *
  * @param name (string): The person who creates the reservation
+ * @param printer (string): ID of the desired printer
  * @param start (Date): Start datetime
  * @param end (Date): End datetime
  * @throws RequestFailed if response does not return successfully
  */
-export async function createReservation(name, start, end) {
+export async function createReservation(name, printer, start, end) {
     const res = await fetch(`${API_URL}reservations/`, {
         method: 'post',
         headers: {
@@ -103,9 +104,9 @@ export async function createReservation(name, start, end) {
         },
         body: JSON.stringify({
             owner: name,
+            printer,
             start: start.toISOString(),
             end: end.toISOString(),
-            printer: 'ultimaker2+',
         }),
     });
     if (!res.ok) {
