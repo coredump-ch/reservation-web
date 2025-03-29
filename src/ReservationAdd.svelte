@@ -83,6 +83,8 @@
       <option value=""></option>
       <option value="prusaxl">Prusa XL</option>
       <option value="ultimaker2+">Ultimaker 2+</option>
+      <option value="elegoo-mars">Elegoo Mars</option>
+      <option value="elegoo-saturn-4ultra">Elegoo Saturn 4 Ultra</option>
     </select>
   </div>
   <div class="form-group" class:invalid={start.length < 16 || !startDateTime.isValid}>
