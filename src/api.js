@@ -76,6 +76,9 @@ export async function getReservations() {
             Accept: 'application/json',
         },
     });
+    if (res.status !== 200) {
+        throw new Error(`"HTTP ${res.status} ${res.statusText}" when fetching reservations`);
+    }
     const data = await res.json();
     return data.results.map((res) => {
         // Parse dates
