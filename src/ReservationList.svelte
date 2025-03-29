@@ -25,6 +25,10 @@
         return 'Ultimaker 2+';
       case 'prusaxl':
         return 'Prusa XL';
+      case 'elegoo-mars':
+        return 'Elegoo Mars';
+      case 'elegoo-saturn-4ultra':
+        return 'Elegoo Saturn 4 Ultra';
       default:
         console.warn(`Unknown printer model: ${printerId}`);
         return printerId;
