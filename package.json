@@ -32,7 +32,7 @@
     "prettier-plugin-svelte": "^3.2.7",
     "svelte": "^4",
     "svelte-check": "^4.0.5",
-    "vite": "^5.4.20"
+    "vite": "^5.4.21"
   },
   "dependencies": {
     "luxon": "^3.5.0"
